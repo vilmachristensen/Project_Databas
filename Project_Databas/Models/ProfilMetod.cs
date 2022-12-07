@@ -71,7 +71,7 @@ namespace Project_Databas.Models
 
 
             //SqlString och lägg till en user i databasen
-            String sqlstring = "Select * From Tbl_Profil WHERE Pr_Mail = @mail and Pr_Losenord = @losenord";
+            String sqlstring = "Select * From Tbl_Profil WHERE Pr_Mail = @mail AND Pr_Losenord = @losenord";
             SqlCommand dbCommand = new SqlCommand(sqlstring, dbConnection);
 
             dbCommand.Parameters.Add("mail", SqlDbType.Int).Value = profil_mail;

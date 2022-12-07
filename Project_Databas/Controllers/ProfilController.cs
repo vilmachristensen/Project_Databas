@@ -30,6 +30,11 @@ namespace Project_Databas.Controllers
             ProfilMetod pm = new ProfilMetod();
             pd = pm.GetProfil(Pr_Mail, Pr_Losenord, out string errormsg);
 
+            if (pd != null)
+            {
+                return RedirectToAction("Index");
+            }
+            else return View("Inloggning");
         }
 
         [HttpGet]
