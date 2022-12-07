@@ -1,62 +1,48 @@
-﻿@model IEnumerable<Project_Databas.Models.ProfilDetaljer>
+﻿@model Project_Databas.Models.ProfilDetaljer
 
 @{
     ViewData["Title"] = "Min profil";
 }
 
-<h2>Nedan kan du visa, redigera och ta bort din profil</h2>
+<h3>Min profil</h3>
+<p>Nedan kan du visa, redigera och ta bort din profil</p>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Pr_Namn)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Pr_Namn)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Pr_Mail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Pr_Mail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Pr_Losenord)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Pr_Losenord)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Pr_Bor)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Pr_Bor)
+        </dd>
+    </dl>
+</div>
+@*
+    <div>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Pr_Id }) |
+        @Html.ActionLink("Details", "Details", new { id = Model.Pr_Id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = Model.Pr_Id })
+    </div>
+*@
 
 
-@*<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Pr_Namn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Pr_Mail)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Pr_Bor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Pr_Losenord)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Pr_Id)
-            </th>
-            <th>
-                Redigera
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Pr_Namn)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Pr_Mail)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Pr_Bor)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Pr_Losenord)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Pr_Id)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Pr_Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Pr_Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Pr_Id })
 
-                </td>
-            </tr>
-        }
-    <tbody>*@
-   
-</table>
+
