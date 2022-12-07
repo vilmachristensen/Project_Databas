@@ -74,8 +74,8 @@ namespace Project_Databas.Models
             String sqlstring = "Select * From Tbl_Profil WHERE Pr_Mail = @mail AND Pr_Losenord = @losenord";
             SqlCommand dbCommand = new SqlCommand(sqlstring, dbConnection);
 
-            dbCommand.Parameters.Add("mail", SqlDbType.Int).Value = profil_mail;
-            dbCommand.Parameters.Add("losenord", SqlDbType.Int).Value = profil_losenord;
+            dbCommand.Parameters.Add("mail", SqlDbType.NVarChar, 30).Value = profil_mail;
+            dbCommand.Parameters.Add("losenord", SqlDbType.NVarChar, 30).Value = profil_losenord;
 
             SqlDataAdapter myAdapter = new SqlDataAdapter(dbCommand);
             DataSet myDS = new DataSet();
@@ -97,7 +97,7 @@ namespace Project_Databas.Models
                 {
                     //Läser ut data från dataset
                     ProfilDetaljer pd = new ProfilDetaljer();
-                    pd.Pr_Id = Convert.ToInt16(myDS.Tables["myPerson"].Rows[i]["Pe_Id"]);
+                    pd.Pr_Id = Convert.ToInt16(myDS.Tables["myPerson"].Rows[i]["Pr_Id"]);
                     pd.Pr_Namn = myDS.Tables["myPerson"].Rows[i]["Pr_Namn"].ToString();
                     pd.Pr_Mail = myDS.Tables["myPerson"].Rows[i]["Pr_Mail"].ToString();
                     pd.Pr_Bor = Convert.ToInt16(myDS.Tables["myPerson"].Rows[i]["Pr_Bor"]);

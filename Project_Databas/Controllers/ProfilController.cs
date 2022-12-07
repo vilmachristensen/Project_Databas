@@ -30,11 +30,23 @@ namespace Project_Databas.Controllers
             ProfilMetod pm = new ProfilMetod();
             pd = pm.GetProfil(Pr_Mail, Pr_Losenord, out string errormsg);
 
+
             if (pd != null)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("MinProfil");
             }
-            else return View("Inloggning");
+            else
+            {
+                string error = "Felaktig mail eller lösenord";
+                ViewBag.error = error;
+                return View("Inloggning");
+            }
+
+        }
+
+        public IActionResult MinProfil()
+        {
+            return View();
         }
 
         [HttpGet]
