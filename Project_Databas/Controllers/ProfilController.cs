@@ -33,7 +33,7 @@ namespace Project_Databas.Controllers
 
             if (pd != null)
             {
-                return RedirectToAction("MinProfil");
+                return RedirectToAction("MinProfil", pd);
             }
             else
             {
@@ -44,9 +44,13 @@ namespace Project_Databas.Controllers
 
         }
 
-        public IActionResult MinProfil()
+        public IActionResult MinProfil(string Pr_Mail, string Pr_Losenord)
         {
-            return View();
+            ProfilDetaljer pd = new ProfilDetaljer();
+            ProfilMetod pm = new ProfilMetod();
+            pd = pm.GetProfil(Pr_Mail, Pr_Losenord, out string error);
+            ViewBag.error = error;
+            return View(pd);
         }
 
         [HttpGet]
