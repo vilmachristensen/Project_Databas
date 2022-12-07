@@ -64,6 +64,69 @@ namespace Project_Databas.Models
             }
         }
 
+        public ProfilDetaljer GetProfil(string profil_mail, string profil_losenord, out string errormsg)
+        {
+            //Skapa SqlConnection
+            SqlConnection dbConnection = new SqlConnection(GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
+
+
+            //SqlString och lägg till en user i databasen
+            String sqlstring = "Select * From Tbl_Profil WHERE Pr_Mail = @mail and Pr_Losenord = @losenord";
+            SqlCommand dbCommand = new SqlCommand(sqlstring, dbConnection);
+
+            dbCommand.Parameters.Add("mail", SqlDbType.Int).Value = profil_mail;
+            dbCommand.Parameters.Add("losenord", SqlDbType.Int).Value = profil_losenord;
+
+            SqlDataAdapter myAdapter = new SqlDataAdapter(dbCommand);
+            DataSet myDS = new DataSet();
+
+
+            try
+            {
+                //Öppna connection till databasen
+                dbConnection.Open();
+
+                //Fyller dataset med data i en tabell med namnet myPerson
+                myAdapter.Fill(myDS, "myPerson");
+
+                int count = 0;
+                int i = 0;
+                count = myDS.Tables["myPerson"].Rows.Count;
+
+                if (count > 0)
+                {
+                    //Läser ut data från dataset
+                    ProfilDetaljer pd = new ProfilDetaljer();
+                    pd.Pr_Id = Convert.ToInt16(myDS.Tables["myPerson"].Rows[i]["Pe_Id"]);
+                    pd.Pr_Namn = myDS.Tables["myPerson"].Rows[i]["Pr_Namn"].ToString();
+                    pd.Pr_Mail = myDS.Tables["myPerson"].Rows[i]["Pr_Mail"].ToString();
+                    pd.Pr_Bor = Convert.ToInt16(myDS.Tables["myPerson"].Rows[i]["Pr_Bor"]);
+                    pd.Pr_Losenord = myDS.Tables["myPerson"].Rows[i]["Pr_Losenord"].ToString();
+
+
+                    errormsg = "";
+                    return pd;
+
+                }
+                else
+                {
+                    errormsg = "Det hämtas ingen Person";
+                    return (null);
+                }
+            }
+
+            catch (Exception e)
+            {
+                errormsg = e.Message;
+                return null;
+            }
+            finally
+            {
+                dbConnection.Close();
+            }
+
+        }
+
     }
 }
 

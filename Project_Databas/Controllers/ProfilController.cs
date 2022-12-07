@@ -23,6 +23,15 @@ namespace Project_Databas.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Inloggning(string Pr_Mail, string Pr_Losenord)
+        {
+            ProfilDetaljer pd = new ProfilDetaljer();
+            ProfilMetod pm = new ProfilMetod();
+            pd = pm.GetProfil(Pr_Mail, Pr_Losenord, out string errormsg);
+
+        }
+
         [HttpGet]
         public IActionResult SkapaKonto()
         {
