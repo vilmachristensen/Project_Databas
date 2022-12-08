@@ -26,6 +26,9 @@ namespace Project_Databas.Models
 
         [Display(Name = "Län")]
         public int Pr_Bor { get; set; }
+
+        [Display(Name = "Ladda upp profilbild")]
+        public IFormFile ImageFile { get; set; }
     }
 
 }

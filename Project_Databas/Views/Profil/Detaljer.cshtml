@@ -1,10 +1,25 @@
 ﻿@model Project_Databas.Models.ProfilDetaljer
 
 @{
-    ViewData["Title"] = "Min profil";
+    ViewData["Title"] = "Detaljer";
 }
 
-<h3>Min profil</h3>
+<h3>Överblick - Min Profil</h3>
+
+<p>Din profilbild:</p>
+
+<div style=" float: left;">
+    <div style=" width:100%;">
+        @if (!string.IsNullOrEmpty(@ViewBag.picture))
+        {
+
+            <img src="@ViewBag.picture" style="width: 700px; float:left; margin-bottom: 50px; object-fit:cover" alt="bild" />
+        }
+    </div>
+</div>
+
+<p>Vill du ladda upp en ny profilbild? <a href="/Profil/Uppladdning">Ladda upp en bild här</a></p>
+
 
 <div>
     <dl class="dl-horizontal">
@@ -34,24 +49,3 @@
         </dd>
     </dl>
 </div>
-
-
-
-<div>
-    @Html.ActionLink("Redigera", "Redigera", new { Pr_Mail = Model.Pr_Mail, Pr_Losenord = Model.Pr_Losenord })
-    @Html.ActionLink("Detaljer", "Detaljer", new { Pr_Mail = Model.Pr_Mail, Pr_Losenord = Model.Pr_Losenord })
-</div>
-
-@*
-        <div>
-            @Html.ActionLink("Edit", "Edit", new { id = Model.Pr_Id }) |
-            @Html.ActionLink("Details", "Details", new { id = Model.Pr_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = Model.Pr_Id })
-        </div>
-
-    string Pr_Mail, string Pr_Losenord
-*@
-
-
-
-

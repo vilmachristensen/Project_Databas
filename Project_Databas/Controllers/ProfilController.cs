@@ -91,6 +91,57 @@ namespace Project_Databas.Controllers
             i = pm.EditProfil(pd, out error);
             return RedirectToAction("MinProfil", pd);
         }
+
+        //VISA DETALJER PROFIL
+        public IActionResult Detaljer(string Pr_Mail, string Pr_Losenord)
+        {
+            ProfilDetaljer pd = new ProfilDetaljer();
+            ProfilMetod pm = new ProfilMetod();
+            pd = pm.GetProfil(Pr_Mail, Pr_Losenord, out string error);
+
+            BildMetoder bm = new BildMetoder();
+
+            ViewBag.picture = null;
+            if (bm.ViewPicture(Pr_Mail, Pr_Losenord, out string errormsg) != null)
+            {
+                Byte[] bytes = bm.ViewPicture(Pr_Mail, Pr_Losenord, out string errormsg2);
+
+                ViewBag.picture = ViewImage(bytes);
+            }
+
+            return View(pd);
+        }
+
+        //LADDA UPP BILD
+
+        [HttpGet]
+        public IActionResult Uppladdning()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Uppladdning(ProfilDetaljer pd)
+        {
+
+            BildMetoder bm = new BildMetoder();
+
+            Byte[] bytes = bm.Upload(out string errormsg, pd);
+
+
+            var stream = new MemoryStream(bytes);
+            IFormFile img = new FormFile(stream, 0, bytes.Length, "name", "fileName");
+            pd.ImageFile = img;
+
+            return RedirectToAction("Detaljer",pd);
+        }
+
+        [NonAction]
+        private string ViewImage(byte[] arrayImage)
+        {
+            string base64String = Convert.ToBase64String(arrayImage, 0, arrayImage.Length);
+            return "data:image/png;base64," + base64String;
+        }
     }
 }
 
