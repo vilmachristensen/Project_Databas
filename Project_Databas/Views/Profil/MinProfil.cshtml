@@ -35,16 +35,20 @@
     </dl>
 </div>
 
-<p><a href="/Profil/Redigera">Redigera profil</a></p>
-@*
-    <p><a href="/Profil/Detaljer">Visa profil</a></p>
-    <p><a href="/Profil/Radera">Ta bort profil</a></p>
 
+
+<div>
+    @Html.ActionLink("Redigera", "Redigera", new { Pr_Mail = Model.Pr_Mail, Pr_Losenord = Model.Pr_Losenord })
+</div>
+
+@*
         <div>
             @Html.ActionLink("Edit", "Edit", new { id = Model.Pr_Id }) |
             @Html.ActionLink("Details", "Details", new { id = Model.Pr_Id }) |
             @Html.ActionLink("Delete", "Delete", new { id = Model.Pr_Id })
         </div>
+
+    string Pr_Mail, string Pr_Losenord
 *@
 
 
