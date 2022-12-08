@@ -31,7 +31,6 @@ namespace Project_Databas.Models
             //Skapa SqlConnection
             SqlConnection dbConnection = new SqlConnection(GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
 
-
             //SqlString och lägg till en user i databasen
             String sqlstring = "INSERT INTO [Tbl_Profil]([Pr_Namn], [Pr_Mail], [Pr_Bor], [Pr_Losenord]) VALUES (@Pr_Namn, @Pr_Mail, @Pr_Bor, @Pr_Losenord)";
             SqlCommand dbCommand = new SqlCommand(sqlstring, dbConnection);
@@ -69,8 +68,6 @@ namespace Project_Databas.Models
             //Skapa SqlConnection
             SqlConnection dbConnection = new SqlConnection(GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
 
-
-            //SqlString och lägg till en user i databasen
             String sqlstring = "Select * From Tbl_Profil WHERE Pr_Mail = @mail AND Pr_Losenord = @losenord";
             SqlCommand dbCommand = new SqlCommand(sqlstring, dbConnection);
 
@@ -127,6 +124,36 @@ namespace Project_Databas.Models
 
         }
 
+        // REDIGERA 
+        public int EditProfil(ProfilDetaljer pd, out string errormsg)
+        {
+            // Skapa SqlConnection
+            SqlConnection dbConnection = new SqlConnection(GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
+
+            // sqlstring och lägg till en skidakare i databasen
+            String sqlstring = "Update Tbl_Profil Set Pr_Namn = '" + pd.Pr_Namn + "', Pr_Mail = '" + pd.Pr_Mail + "', Pr_Losenord = '" + pd.Pr_Losenord + "', Pr_Bor = '" + pd.Pr_Bor + "' WHERE Pr_Id LIKE '%" + pd.Pr_Id + "%'";
+            SqlCommand dbCommand = new SqlCommand(sqlstring, dbConnection);
+            errormsg = "";
+
+            try
+            {
+                dbConnection.Open();
+                int i = 0;
+                i = dbCommand.ExecuteNonQuery();
+                if (i == 1) { errormsg = ""; }
+                else { errormsg = "Det görs inga uppdateringar!"; }
+                return (i);
+            }
+            catch (Exception e)
+            {
+                errormsg = e.Message;
+                return 0;
+            }
+            finally
+            {
+                dbConnection.Close();
+            }
+        }
     }
 }
 
