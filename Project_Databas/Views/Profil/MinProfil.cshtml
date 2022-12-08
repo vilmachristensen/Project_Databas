@@ -5,7 +5,6 @@
 }
 
 <h3>Min profil</h3>
-<p>Nedan kan du visa, redigera och ta bort din profil</p>
 
 <div>
     <dl class="dl-horizontal">
@@ -35,12 +34,17 @@
         </dd>
     </dl>
 </div>
+
+<p><a href="/Profil/Redigera">Redigera profil</a></p>
 @*
-    <div>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Pr_Id }) |
-        @Html.ActionLink("Details", "Details", new { id = Model.Pr_Id }) |
-        @Html.ActionLink("Delete", "Delete", new { id = Model.Pr_Id })
-    </div>
+    <p><a href="/Profil/Detaljer">Visa profil</a></p>
+    <p><a href="/Profil/Radera">Ta bort profil</a></p>
+
+        <div>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Pr_Id }) |
+            @Html.ActionLink("Details", "Details", new { id = Model.Pr_Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = Model.Pr_Id })
+        </div>
 *@
 
 
