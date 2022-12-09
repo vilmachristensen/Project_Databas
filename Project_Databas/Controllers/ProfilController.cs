@@ -67,7 +67,7 @@ namespace Project_Databas.Controllers
             ViewBag.error = error;
             ViewBag.antal = i;
 
-            if (i == 1) { return RedirectToAction("Index"); }
+            if (i == 1) { return RedirectToAction("MinProfil", pd); }
             else return View("SkapaKonto");
         }
 

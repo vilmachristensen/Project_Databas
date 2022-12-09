@@ -38,7 +38,7 @@ namespace Project_Databas.Models
             dbCommand.Parameters.Add("Pr_Namn", SqlDbType.NVarChar, 30).Value = pd.Pr_Namn;
             dbCommand.Parameters.Add("Pr_Mail", SqlDbType.NVarChar, 30).Value = pd.Pr_Mail;
             dbCommand.Parameters.Add("Pr_Bor", SqlDbType.Int).Value = pd.Pr_Bor;
-            dbCommand.Parameters.Add("Pr_Losenord", SqlDbType.Int).Value = pd.Pr_Losenord;
+            dbCommand.Parameters.Add("Pr_Losenord", SqlDbType.NVarChar, 30).Value = pd.Pr_Losenord;
 
 
             try
