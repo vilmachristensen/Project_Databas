@@ -1,6 +1,6 @@
 ﻿@model Project_Databas.Models.ProfilDetaljer
 
-@{            ViewData["Title"] = "SkapaKonto";
+@{ ViewData["Title"] = "SkapaKonto";
 }
 
 
@@ -38,3 +38,7 @@
         </form>
     </div>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
