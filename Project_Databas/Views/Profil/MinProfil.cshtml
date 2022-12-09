@@ -39,7 +39,8 @@
 
 <div>
     @Html.ActionLink("Redigera", "Redigera", new { Pr_Mail = Model.Pr_Mail, Pr_Losenord = Model.Pr_Losenord })
-    @Html.ActionLink("Detaljer", "Detaljer", new { Pr_Mail = Model.Pr_Mail, Pr_Losenord = Model.Pr_Losenord })
+    @Html.ActionLink("Visa mer", "Detaljer", new { Pr_Mail = Model.Pr_Mail, Pr_Losenord = Model.Pr_Losenord })
+    @Html.ActionLink("Ta bort profil", "Radera", new { id = Model.Pr_Id })
 </div>
 
 @*

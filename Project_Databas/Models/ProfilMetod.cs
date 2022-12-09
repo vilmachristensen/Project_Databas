@@ -154,6 +154,36 @@ namespace Project_Databas.Models
                 dbConnection.Close();
             }
         }
+
+        // TA BORT 
+        public int DeleteProfil(int id, out string errormsg)
+        {
+            // Skapa SqlConnection
+            SqlConnection dbConnection = new SqlConnection(GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
+
+            // sqlstring och ta bort en skidakare i databasen
+            String sqlstring = "Delete From Tbl_Profil Where Pr_Id LIKE '%" + id + "%'";
+            SqlCommand dbCommand = new SqlCommand(sqlstring, dbConnection);
+
+            try
+            {
+                dbConnection.Open();
+                int i = 0;
+                i = dbCommand.ExecuteNonQuery();
+                if (i == 1) { errormsg = ""; }
+                else { errormsg = "Det raderas inte någon skidåkare från databasen!"; }
+                return (i);
+            }
+            catch (Exception e)
+            {
+                errormsg = e.Message;
+                return 0;
+            }
+            finally
+            {
+                dbConnection.Close();
+            }
+        }
     }
 }
 

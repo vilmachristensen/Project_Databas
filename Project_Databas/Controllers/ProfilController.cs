@@ -92,7 +92,7 @@ namespace Project_Databas.Controllers
             return RedirectToAction("MinProfil", pd);
         }
 
-        //VISA DETALJER PROFIL
+        // VISA DETALJER PROFIL
         public IActionResult Detaljer(string Pr_Mail, string Pr_Losenord)
         {
             ProfilDetaljer pd = new ProfilDetaljer();
@@ -112,7 +112,7 @@ namespace Project_Databas.Controllers
             return View(pd);
         }
 
-        //LADDA UPP BILD
+        // LADDA UPP BILD
 
         [HttpGet]
         public IActionResult Uppladdning()
@@ -146,6 +146,19 @@ namespace Project_Databas.Controllers
         {
             string base64String = Convert.ToBase64String(arrayImage, 0, arrayImage.Length);
             return "data:image/png;base64," + base64String;
+        }
+
+
+
+        // TA BORT PROFIL
+        public IActionResult Radera(int id)
+        {
+            ProfilMetod pm = new ProfilMetod();
+            string error = "";
+            int i = 0;
+            i = pm.DeleteProfil(id, out error);
+            HttpContext.Session.SetString("antal", i.ToString());
+            return RedirectToAction("Inloggning");
         }
     }
 }
