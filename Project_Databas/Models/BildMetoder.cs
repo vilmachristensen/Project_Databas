@@ -20,7 +20,7 @@ namespace Project_Databas.Models
 
         }
 
-        public Byte[] Upload(out string errormsg, ProfilDetaljer pd)
+        public Byte[] Upload(out string errormsg, ProfilDetaljer pd, string Pr_Mail, string Pr_Losenord)
         {
             try
             {
@@ -36,11 +36,11 @@ namespace Project_Databas.Models
                     string connectionstring = GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value;
                     SqlConnection con = new SqlConnection(connectionstring);
 
-                    SqlCommand cmd = new SqlCommand("UPDATE [Tbl_Profil] SET Pr_Bild = @bild WHERE Pr_Id = @pd", con);
-                    //"UPDATE [Tbl_Profil] SET Pr_Bild = '" + pd.ImageFile + "' WHERE Pr_Id LIKE '%" + pd.Pr_Id + "%'"
+                    SqlCommand cmd = new SqlCommand("UPDATE Tbl_Profil SET Pr_Bild = @bild WHERE Pr_Mail = @Pr_Mail", con);
+                    //SqlCommand cmd = new SqlCommand("UPDATE Tbl_Profil SET Pr_Bild = '" + pd.ImageFile + "' WHERE Pr_Mail LIKE '%" + pd.Pr_Mail + "%'", con);
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("bild", bytes);
-                    cmd.Parameters.AddWithValue("pd", pd);
+                    cmd.Parameters.AddWithValue("Pr_Mail", Pr_Mail);
                     con.Open();
                     cmd.ExecuteNonQuery();
                     con.Close();

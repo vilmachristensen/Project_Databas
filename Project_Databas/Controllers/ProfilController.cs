@@ -117,16 +117,21 @@ namespace Project_Databas.Controllers
         [HttpGet]
         public IActionResult Uppladdning()
         {
+            /*string s = HttpContext.Session.GetString("session");
+            ViewBag.profile = s;*/
             return View();
         }
 
         [HttpPost]
-        public IActionResult Uppladdning(ProfilDetaljer pd)
+        public IActionResult Uppladdning(ProfilDetaljer pd, string Pr_Mail, string Pr_Losenord)
         {
+            /*
+            string s = HttpContext.Session.GetString("session");
+            ViewBag.profile = s;*/
 
             BildMetoder bm = new BildMetoder();
 
-            Byte[] bytes = bm.Upload(out string errormsg, pd);
+            Byte[] bytes = bm.Upload(out string errormsg, pd, Pr_Mail, Pr_Losenord);
 
 
             var stream = new MemoryStream(bytes);
