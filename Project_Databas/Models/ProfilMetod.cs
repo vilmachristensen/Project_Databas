@@ -131,10 +131,8 @@ namespace Project_Databas.Models
         // REDIGERA 
         public int EditProfil(ProfilDetaljer pd, out string errormsg)
         {
-            // Skapa SqlConnection
             SqlConnection dbConnection = new SqlConnection(GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
 
-            // sqlstring och lägg till en skidakare i databasen
             String sqlstring = "Update Tbl_Profil Set Pr_Namn = '" + pd.Pr_Namn + "', Pr_Mail = '" + pd.Pr_Mail + "', Pr_Losenord = '" + pd.Pr_Losenord + "', Pr_Bor = '" + pd.Pr_Bor + "' WHERE Pr_Id LIKE '%" + pd.Pr_Id + "%'";
             SqlCommand dbCommand = new SqlCommand(sqlstring, dbConnection);
             errormsg = "";
@@ -162,10 +160,8 @@ namespace Project_Databas.Models
         // TA BORT 
         public int DeleteProfil(int id, out string errormsg)
         {
-            // Skapa SqlConnection
             SqlConnection dbConnection = new SqlConnection(GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
 
-            // sqlstring och ta bort en skidakare i databasen
             String sqlstring = "Delete From Tbl_Profil Where Pr_Id LIKE '%" + id + "%'";
             SqlCommand dbCommand = new SqlCommand(sqlstring, dbConnection);
 
@@ -175,7 +171,7 @@ namespace Project_Databas.Models
                 int i = 0;
                 i = dbCommand.ExecuteNonQuery();
                 if (i == 1) { errormsg = ""; }
-                else { errormsg = "Det raderas inte någon skidåkare från databasen!"; }
+                else { errormsg = "Det raderas inte någon användare från databasen!"; }
                 return (i);
             }
             catch (Exception e)
