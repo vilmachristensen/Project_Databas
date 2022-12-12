@@ -160,6 +160,12 @@ namespace Project_Databas.Controllers
             HttpContext.Session.SetString("antal", i.ToString());
             return RedirectToAction("Inloggning");
         }
+
+        // GLÖMT LÖSENORD
+        public IActionResult Glomt()
+        {
+            return View();
+        }
     }
 }
 

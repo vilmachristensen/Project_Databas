@@ -6,7 +6,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+// LAGT TILL FÖR MAIL
+using System.Configuration;
+using System.Drawing;
+using System.Net;
+using System.Net.Mail;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace Project_Databas.Models
 {
@@ -19,11 +26,8 @@ namespace Project_Databas.Models
         public IConfigurationRoot GetConnection()
 
         {
-
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appSettings.json").Build();
-
             return builder;
-
         }
 
         public int SkapaKonto(ProfilDetaljer pd, out string errormsg)
@@ -184,6 +188,67 @@ namespace Project_Databas.Models
                 dbConnection.Close();
             }
         }
+
+        // SKICKA MAIL
+        /*
+        public void SendMail(object sender, EventArgs e)
+        {
+            // Skapa SqlConnection
+            SqlConnection dbConnection = new SqlConnection(GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
+
+            // sqlstring och ta bort en skidakare i databasen
+            String sqlstring = "Select Pr_Mail, Pr_Losenord From Tbl_Profil Where Pr_Mail=@Pr_Mail";
+            SqlCommand dbCommand = new SqlCommand(sqlstring, dbConnection);
+
+            dbCommand.Parameters.AddWithValue("@Pr_Mail", TxtEmail.Text);
+
+            SqlDataReader reader = null;
+
+            //errormsg = "";
+
+            try { 
+                dbConnection.Open();
+                reader = dbCommand.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    string mail = reader["Pr_Mail"].ToString();
+                    string losen = reader["Pr_Losenord"].ToString();
+
+                    MailMessage mm = new MailMessage("linneanilsson00@gmail.com", TxtEmail.Text);
+                    mm.Subject = "Återställ ditt lösenord";
+                    mm.Body = string.Format("Ditt lösenord är", mail, losen);
+                    mm.IsBodyHtml = true;
+                    SmtpClient smtp = new SmtpClient();
+                    smtp.Host = "smtp.gmail.com";
+                    smtp.EnableSsl = true;
+                    NetworkCredential nc = new NetworkCredential();
+                    nc.UserName = "linneanilsson00@gmail.com";
+                    nc.Password = "newpassword";
+                    smtp.UseDefaultCredentials = true;
+                    smtp.Credentials = nc;
+                    smtp.Port = 587;
+                    smtp.Send(mm);
+                    Labmsg.Text = "Ditt lösenord har skickats till " + TxtEmail.Text;
+                    Labmsg.ForeColor = Color.Green;
+                }
+                else
+                {
+                    Labmsg.Text = TxtEmail.Text + "Mailen finns inte registrerad";
+                    Labmsg.ForeColor = Color.Red;
+                }
+                reader.Close();
+            }
+            catch (Exception e)
+            {
+                //errormsg = e.Message;
+                return null;
+            }
+            finally
+            {
+                dbConnection.Close();
+            }
+        }*/
     }
 }
 
