@@ -6,14 +6,13 @@
 
 <h3>Överblick - Min Profil</h3>
 
-<p>Din profilbild:</p>
 
 <div style=" float: left;">
     <div style=" width:100%;">
         @if (!string.IsNullOrEmpty(@ViewBag.picture))
         {
 
-            <img src="@ViewBag.picture" style="width: 700px; float:left; margin-bottom: 50px; object-fit:cover" alt="bild" />
+            <img src="@ViewBag.picture" style="width: 300px; height: 300px; float:left; margin-bottom: 50px; margin-right: 50px; border-radius: 50%; object-fit:cover" alt="bild" />
         }
     </div>
 </div>
@@ -21,7 +20,8 @@
 @*<p>Vill du ladda upp en ny profilbild? <a href="/Profil/Uppladdning">Ladda upp en bild här</a></p>
 *@
 <div>
-    @Html.ActionLink("Ladda upp en bild här", "Uppladdning", new { Pr_Mail = Model.Pr_Mail, Pr_Losenord = Model.Pr_Losenord })
+    @Html.ActionLink("Ladda upp en bild här", "Uppladdning", new {pd = Model})
+    <br/>
 </div>
 
 

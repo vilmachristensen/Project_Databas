@@ -20,7 +20,7 @@ namespace Project_Databas.Models
 
         }
 
-        public Byte[] Upload(out string errormsg, ProfilDetaljer pd, string Pr_Mail, string Pr_Losenord)
+        public Byte[] Upload(out string errormsg, ProfilDetaljer pd, string user)
         {
             try
             {
@@ -36,11 +36,13 @@ namespace Project_Databas.Models
                     string connectionstring = GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value;
                     SqlConnection con = new SqlConnection(connectionstring);
 
-                    SqlCommand cmd = new SqlCommand("UPDATE Tbl_Profil SET Pr_Bild = @bild WHERE Pr_Mail = @Pr_Mail", con);
+                    //SqlCommand cmd = new SqlCommand("INSERT INTO [Tbl_Profil]([Pr_Bild]) VALUES (@bild) WHERE Pr_Mail = @Pr_Mail", con);
+                    SqlCommand cmd = new SqlCommand("UPDATE Tbl_Profil SET Pr_Bild = @bild WHERE Pr_Mail = @user", con);
                     //SqlCommand cmd = new SqlCommand("UPDATE Tbl_Profil SET Pr_Bild = '" + pd.ImageFile + "' WHERE Pr_Mail LIKE '%" + pd.Pr_Mail + "%'", con);
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("bild", bytes);
-                    cmd.Parameters.AddWithValue("Pr_Mail", Pr_Mail);
+                    cmd.Parameters.AddWithValue("user", user);
+                    //cmd.Parameters.AddWithValue("Pr_Mail", pd.Pr_Mail);
                     con.Open();
                     cmd.ExecuteNonQuery();
                     con.Close();
@@ -58,15 +60,14 @@ namespace Project_Databas.Models
             return null;
         }
 
-        public Byte[] ViewPicture(string profil_mail, string profil_losenord, out string errormsg)
+        public Byte[] ViewPicture(string profil_mail, string profil_losenord, out string errormsg, string user)
         {
             SqlConnection dbConnection = new SqlConnection(GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
 
-            String sqlstring = "SELECT Pr_Bild FROM Tbl_Profil WHERE Pr_Mail = @mail AND Pr_Losenord = @losenord";
+            String sqlstring = "SELECT Pr_Bild FROM Tbl_Profil WHERE Pr_Mail = @user";
             SqlCommand dbCommand = new SqlCommand(sqlstring, dbConnection);
 
-            dbCommand.Parameters.Add("mail", SqlDbType.NVarChar, 30).Value = profil_mail;
-            dbCommand.Parameters.Add("losenord", SqlDbType.NVarChar, 30).Value = profil_losenord;
+            dbCommand.Parameters.Add("user", SqlDbType.NVarChar, 30).Value = user;
 
             SqlDataReader reader = null;
 

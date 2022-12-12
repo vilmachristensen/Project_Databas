@@ -31,6 +31,8 @@ namespace Project_Databas.Controllers
 
             if (pd != null)
             {
+                string s = pd.Pr_Mail;
+                HttpContext.Session.SetString("session", s);
                 return RedirectToAction("MinProfil", pd);
             }
             else
@@ -46,6 +48,10 @@ namespace Project_Databas.Controllers
             ProfilDetaljer pd = new ProfilDetaljer();
             ProfilMetod pm = new ProfilMetod();
             pd = pm.GetProfil(Pr_Mail, Pr_Losenord, out string error);
+
+            string s = HttpContext.Session.GetString("session");
+            ViewBag.user = s;
+
             ViewBag.error = error;
             return View(pd);
         }
@@ -99,12 +105,15 @@ namespace Project_Databas.Controllers
             ProfilMetod pm = new ProfilMetod();
             pd = pm.GetProfil(Pr_Mail, Pr_Losenord, out string error);
 
+            string s = HttpContext.Session.GetString("session");
+            ViewBag.user = s;
+
             BildMetoder bm = new BildMetoder();
 
             ViewBag.picture = null;
-            if (bm.ViewPicture(Pr_Mail, Pr_Losenord, out string errormsg) != null)
+            if (bm.ViewPicture(Pr_Mail, Pr_Losenord, out string errormsg, s) != null)
             {
-                Byte[] bytes = bm.ViewPicture(Pr_Mail, Pr_Losenord, out string errormsg2);
+                Byte[] bytes = bm.ViewPicture(Pr_Mail, Pr_Losenord, out string errormsg2,s);
 
                 ViewBag.picture = ViewImage(bytes);
             }
@@ -117,21 +126,21 @@ namespace Project_Databas.Controllers
         [HttpGet]
         public IActionResult Uppladdning()
         {
-            /*string s = HttpContext.Session.GetString("session");
-            ViewBag.profile = s;*/
+            string s = HttpContext.Session.GetString("session");
+            ViewBag.user = s;
             return View();
         }
 
         [HttpPost]
-        public IActionResult Uppladdning(ProfilDetaljer pd, string Pr_Mail, string Pr_Losenord)
+        public IActionResult Uppladdning(ProfilDetaljer pd)
         {
-            /*
+            
             string s = HttpContext.Session.GetString("session");
-            ViewBag.profile = s;*/
+            ViewBag.user = s;
 
             BildMetoder bm = new BildMetoder();
 
-            Byte[] bytes = bm.Upload(out string errormsg, pd, Pr_Mail, Pr_Losenord);
+            Byte[] bytes = bm.Upload(out string errormsg, pd, s);
 
 
             var stream = new MemoryStream(bytes);
