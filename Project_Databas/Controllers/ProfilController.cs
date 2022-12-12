@@ -166,6 +166,12 @@ namespace Project_Databas.Controllers
         {
             return View();
         }
+
+        // SHOP
+        public IActionResult Shop()
+        {
+            return View();
+        }
     }
 }
 

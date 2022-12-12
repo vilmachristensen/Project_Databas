@@ -12,8 +12,8 @@ using System.Drawing;
 using System.Net;
 using System.Net.Mail;
 using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+//using System.Web.UI;
+//using System.Web.UI.WebControls;
 
 namespace Project_Databas.Models
 {
