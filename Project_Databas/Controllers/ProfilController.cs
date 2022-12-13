@@ -70,8 +70,8 @@ namespace Project_Databas.Controllers
             int i = 0;
             string error = "";
             i = pm.SkapaKonto(pd, out error);
-            ViewBag.error = error;
-            ViewBag.antal = i;
+            //ViewBag.error = error;
+            //ViewBag.antal = i;
 
             if (i == 1) { return RedirectToAction("MinProfil", pd); }
             else return View("SkapaKonto");
@@ -101,19 +101,20 @@ namespace Project_Databas.Controllers
         // VISA DETALJER PROFIL
         public IActionResult Detaljer(string Pr_Mail, string Pr_Losenord)
         {
+            string s = HttpContext.Session.GetString("session");
+            ViewBag.user = s;
+
             ProfilDetaljer pd = new ProfilDetaljer();
             ProfilMetod pm = new ProfilMetod();
             pd = pm.GetProfil(Pr_Mail, Pr_Losenord, out string error);
 
-            string s = HttpContext.Session.GetString("session");
-            ViewBag.user = s;
-
+       
             BildMetoder bm = new BildMetoder();
 
             ViewBag.picture = null;
-            if (bm.ViewPicture(Pr_Mail, Pr_Losenord, out string errormsg, s) != null)
+            if (bm.ViewPicture(out string errormsg, s) != null)
             {
-                Byte[] bytes = bm.ViewPicture(Pr_Mail, Pr_Losenord, out string errormsg2,s);
+                Byte[] bytes = bm.ViewPicture(out string errormsg2,s);
 
                 ViewBag.picture = ViewImage(bytes);
             }
@@ -139,15 +140,19 @@ namespace Project_Databas.Controllers
             ViewBag.user = s;
 
             BildMetoder bm = new BildMetoder();
+            ProfilMetod pm = new ProfilMetod();
+            ProfilDetaljer profilInfo = new ProfilDetaljer();
 
             Byte[] bytes = bm.Upload(out string errormsg, pd, s);
+
+            profilInfo = pm.GetProfil(pd.Pr_Mail, pd.Pr_Losenord, out string errormsg2);
 
 
             var stream = new MemoryStream(bytes);
             IFormFile img = new FormFile(stream, 0, bytes.Length, "name", "fileName");
             pd.ImageFile = img;
 
-            return RedirectToAction("Detaljer",pd);
+            return RedirectToAction("Detaljer",profilInfo);
         }
 
         [NonAction]
@@ -166,7 +171,6 @@ namespace Project_Databas.Controllers
             string error = "";
             int i = 0;
             i = pm.DeleteProfil(id, out error);
-            HttpContext.Session.SetString("antal", i.ToString());
             return RedirectToAction("Inloggning");
         }
 

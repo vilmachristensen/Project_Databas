@@ -36,13 +36,11 @@ namespace Project_Databas.Models
                     string connectionstring = GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value;
                     SqlConnection con = new SqlConnection(connectionstring);
 
-                    //SqlCommand cmd = new SqlCommand("INSERT INTO [Tbl_Profil]([Pr_Bild]) VALUES (@bild) WHERE Pr_Mail = @Pr_Mail", con);
                     SqlCommand cmd = new SqlCommand("UPDATE Tbl_Profil SET Pr_Bild = @bild WHERE Pr_Mail = @user", con);
-                    //SqlCommand cmd = new SqlCommand("UPDATE Tbl_Profil SET Pr_Bild = '" + pd.ImageFile + "' WHERE Pr_Mail LIKE '%" + pd.Pr_Mail + "%'", con);
+
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("bild", bytes);
                     cmd.Parameters.AddWithValue("user", user);
-                    //cmd.Parameters.AddWithValue("Pr_Mail", pd.Pr_Mail);
                     con.Open();
                     cmd.ExecuteNonQuery();
                     con.Close();
@@ -60,7 +58,7 @@ namespace Project_Databas.Models
             return null;
         }
 
-        public Byte[] ViewPicture(string profil_mail, string profil_losenord, out string errormsg, string user)
+        public Byte[] ViewPicture(out string errormsg, string user)
         {
             SqlConnection dbConnection = new SqlConnection(GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
 
