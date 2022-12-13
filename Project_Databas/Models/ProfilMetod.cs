@@ -185,66 +185,91 @@ namespace Project_Databas.Models
             }
         }
 
+
         // SKICKA MAIL
-        /*
-        public void SendMail(object sender, EventArgs e)
+
+        public void SendMail(string glomt_mail, out string errormsg)
         {
             // Skapa SqlConnection
             SqlConnection dbConnection = new SqlConnection(GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
 
             // sqlstring och ta bort en skidakare i databasen
-            String sqlstring = "Select Pr_Mail, Pr_Losenord From Tbl_Profil Where Pr_Mail=@Pr_Mail";
+            String sqlstring = "Select Pr_Losenord From Tbl_Profil Where Pr_Mail=@glomt_mail";
             SqlCommand dbCommand = new SqlCommand(sqlstring, dbConnection);
 
-            dbCommand.Parameters.AddWithValue("@Pr_Mail", TxtEmail.Text);
+            dbCommand.Parameters.AddWithValue("glomt_mail", glomt_mail);
 
             SqlDataReader reader = null;
 
-            //errormsg = "";
+            errormsg = "";
 
-            try { 
+            try
+            {
                 dbConnection.Open();
                 reader = dbCommand.ExecuteReader();
 
                 if (reader.Read())
                 {
-                    string mail = reader["Pr_Mail"].ToString();
+                    string mail = glomt_mail;
                     string losen = reader["Pr_Losenord"].ToString();
 
-                    MailMessage mm = new MailMessage("linneanilsson00@gmail.com", TxtEmail.Text);
-                    mm.Subject = "Återställ ditt lösenord";
-                    mm.Body = string.Format("Ditt lösenord är", mail, losen);
-                    mm.IsBodyHtml = true;
-                    SmtpClient smtp = new SmtpClient();
-                    smtp.Host = "smtp.gmail.com";
-                    smtp.EnableSsl = true;
-                    NetworkCredential nc = new NetworkCredential();
-                    nc.UserName = "linneanilsson00@gmail.com";
-                    nc.Password = "newpassword";
-                    smtp.UseDefaultCredentials = true;
-                    smtp.Credentials = nc;
-                    smtp.Port = 587;
-                    smtp.Send(mm);
-                    Labmsg.Text = "Ditt lösenord har skickats till " + TxtEmail.Text;
-                    Labmsg.ForeColor = Color.Green;
+                    using (MailMessage emailMessage = new MailMessage())
+                    {
+                        emailMessage.From = new MailAddress("linneanilsson00@gmail.com", "Account2");
+                        emailMessage.To.Add(new MailAddress(glomt_mail, "Account1"));
+                        emailMessage.Subject = "Återställning av lösenord";
+                        emailMessage.Body = "Här är lösenordet till din inloggning:";
+                        emailMessage.Priority = MailPriority.Normal;
+                        using (SmtpClient MailClient = new SmtpClient("smtp.gmail.com", 587))
+                        {
+                            MailClient.EnableSsl = true;
+                            MailClient.Credentials = new System.Net.NetworkCredential("linneanilsson00@gmail.com", "MorotPotatis2000");
+                            MailClient.Send(emailMessage);
+                        }
+
+                    }
+
                 }
-                else
-                {
-                    Labmsg.Text = TxtEmail.Text + "Mailen finns inte registrerad";
-                    Labmsg.ForeColor = Color.Red;
-                }
+
                 reader.Close();
             }
             catch (Exception e)
             {
-                //errormsg = e.Message;
-                return null;
+                errormsg = e.Message;
+                //return null;
             }
             finally
             {
                 dbConnection.Close();
             }
-        }*/
+        }
     }
 }
 
+/*
+MailMessage from = new MailMessage("linneanilsson00@gmail.com");
+MailMessage to = new MailMessage(glomt_mail);
+MailMessage mm = new MailMessage(from, to);
+mm.Subject = "Återställ ditt lösenord";
+mm.Body = string.Format("Ditt lösenord är", mail, losen);
+mm.IsBodyHtml = true;
+SmtpClient smtp = new SmtpClient();
+smtp.Host = "smtp.gmail.com";
+smtp.EnableSsl = true;
+NetworkCredential nc = new NetworkCredential();
+nc.UserName = "linneanilsson00@gmail.com";
+nc.Password = "newpassword";
+smtp.UseDefaultCredentials = true;
+smtp.Credentials = nc;
+smtp.Port = 587;
+smtp.Send(mm);
+Labmsg.Text = "Ditt lösenord har skickats till " + TxtEmail.Text;
+Labmsg.ForeColor = Color.Green;
+
+}
+else
+{
+Labmsg.Text = TxtEmail.Text + "Mailen finns inte registrerad";
+Labmsg.ForeColor = Color.Red;
+}
+*/

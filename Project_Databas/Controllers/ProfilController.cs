@@ -70,8 +70,6 @@ namespace Project_Databas.Controllers
             int i = 0;
             string error = "";
             i = pm.SkapaKonto(pd, out error);
-            //ViewBag.error = error;
-            //ViewBag.antal = i;
 
             if (i == 1) { return RedirectToAction("MinProfil", pd); }
             else return View("SkapaKonto");
@@ -175,9 +173,31 @@ namespace Project_Databas.Controllers
         }
 
         // GLÖMT LÖSENORD
+        [HttpGet]
         public IActionResult Glomt()
         {
+
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Glomt(string Pr_Mail)
+        {
+            if(Pr_Mail != null) { 
+                string s = Pr_Mail;
+                HttpContext.Session.SetString("glömt", s);
+
+                ProfilMetod pm = new ProfilMetod();
+                pm.SendMail(s, out string errormsg);
+
+                return RedirectToAction("Inloggning");
+            }
+            else
+            {
+                string error = "Ange en mailadress";
+                ViewBag.error = error;
+                return View("Glomt");
+            }
         }
 
         // SHOP
