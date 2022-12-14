@@ -1,0 +1,80 @@
+﻿body {
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 0.5fr 1fr 0.5fr;
+    gap: 8px 8px;
+    grid-auto-flow: row;
+    grid-template-areas:
+        "item1 item2 item3 item4"
+        "item1_text item2_text item3_text item4_text"
+        "item5 item6 item7 item8"
+        "item5_text item6_text item7_text item8_text";
+    align-content: center;
+}
+
+.item1 {
+    grid-area: item1;
+}
+
+.item2 {
+    grid-area: item2;
+}
+
+.item3 {
+    grid-area: item3;
+}
+
+.item4 {
+    grid-area: item4;
+}
+
+.item1_text {
+    grid-area: item1_text;
+}
+
+.item2_text {
+    grid-area: item2_text;
+}
+
+.item3_text {
+    grid-area: item3_text;
+}
+
+.item4_text {
+    grid-area: item4_text;
+}
+
+.item5 {
+    grid-area: item5;
+}
+
+.item6 {
+    grid-area: item6;
+}
+
+.item7 {
+    grid-area: item7;
+}
+
+.item8 {
+    grid-area: item8;
+}
+
+.item5_text {
+    grid-area: item5_text;
+}
+
+.item6_text {
+    grid-area: item6_text;
+}
+
+.item7_text {
+    grid-area: item7_text;
+}
+
+.item8_text {
+    grid-area: item8_text;
+}
