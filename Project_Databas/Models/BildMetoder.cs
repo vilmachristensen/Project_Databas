@@ -20,6 +20,7 @@ namespace Project_Databas.Models
 
         }
 
+        // LADDA UPP BILD
         public Byte[] Upload(out string errormsg, ProfilDetaljer pd, string user)
         {
             try
@@ -58,6 +59,7 @@ namespace Project_Databas.Models
             return null;
         }
 
+        // VISA BILD
         public Byte[] ViewPicture(out string errormsg, string user)
         {
             SqlConnection dbConnection = new SqlConnection(GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);

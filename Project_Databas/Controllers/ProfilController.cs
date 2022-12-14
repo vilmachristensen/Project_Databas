@@ -108,7 +108,6 @@ namespace Project_Databas.Controllers
             string s = HttpContext.Session.GetString("session");
             ViewBag.user = s;
 
-            //ProfilDetaljer pd = new ProfilDetaljer();
             ProfilMetod pm = new ProfilMetod();
             pd = pm.GetProfil(Pr_Mail, Pr_Losenord, out string error);
 
@@ -158,6 +157,7 @@ namespace Project_Databas.Controllers
             return RedirectToAction("Detaljer", pd);
         }
 
+        // VISA BILD
         [NonAction]
         private string ViewImage(byte[] arrayImage)
         {
@@ -189,18 +189,14 @@ namespace Project_Databas.Controllers
         public IActionResult Glomt(string Pr_Mail)
         {
             if(Pr_Mail != null) { 
-                string s = Pr_Mail;
-                HttpContext.Session.SetString("glömt", s);
 
                 ProfilMetod pm = new ProfilMetod();
-                pm.SendMail(s, out string errormsg);
+                pm.SendMail(Pr_Mail, out string errormsg);
 
                 return RedirectToAction("Inloggning");
             }
             else
             {
-                string error = "Ange en mailadress";
-                ViewBag.error = error;
                 return View("Glomt");
             }
         }

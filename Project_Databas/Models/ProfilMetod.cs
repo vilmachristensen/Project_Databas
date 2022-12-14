@@ -6,14 +6,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-// LAGT TILL FÖR MAIL
 using System.Configuration;
 using System.Drawing;
 using System.Net;
 using System.Net.Mail;
 using System.Web;
-//using System.Web.UI;
-//using System.Web.UI.WebControls;
+
 
 namespace Project_Databas.Models
 {
@@ -30,6 +28,7 @@ namespace Project_Databas.Models
             return builder;
         }
 
+        // SKAPA KONTO
         public int SkapaKonto(ProfilDetaljer pd, out string errormsg)
         {
             //Skapa SqlConnection
@@ -193,7 +192,7 @@ namespace Project_Databas.Models
             // Skapa SqlConnection
             SqlConnection dbConnection = new SqlConnection(GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
 
-            // sqlstring och ta bort en skidakare i databasen
+            
             String sqlstring = "Select Pr_Losenord From Tbl_Profil Where Pr_Mail=@glomt_mail";
             SqlCommand dbCommand = new SqlCommand(sqlstring, dbConnection);
 
@@ -215,15 +214,15 @@ namespace Project_Databas.Models
 
                     using (MailMessage emailMessage = new MailMessage())
                     {
-                        emailMessage.From = new MailAddress("linneanilsson00@gmail.com", "Account2");
-                        emailMessage.To.Add(new MailAddress(glomt_mail, "Account1"));
-                        emailMessage.Subject = "Återställning av lösenord";
-                        emailMessage.Body = "Här är lösenordet till din inloggning:";
+                        emailMessage.From = new MailAddress("retroshoppen123@outlook.com", "Retroshoppen");
+                        emailMessage.To.Add(new MailAddress(glomt_mail, "Mottagare"));
+                        emailMessage.Subject = "Återställning av ditt lösenord";
+                        emailMessage.Body = "Hej!\nHär är lösenordet till din inloggning: " + losen + "\n\nMed Vänliga Hälsningar: \nRetroshoppen";
                         emailMessage.Priority = MailPriority.Normal;
-                        using (SmtpClient MailClient = new SmtpClient("smtp.gmail.com", 587))
+                        using (SmtpClient MailClient = new SmtpClient("smtp.office365.com", 587))
                         {
                             MailClient.EnableSsl = true;
-                            MailClient.Credentials = new System.Net.NetworkCredential("linneanilsson00@gmail.com", "password");
+                            MailClient.Credentials = new System.Net.NetworkCredential("retroshoppen123@outlook.com", "qvzgiujmpyjavbkl");
                             MailClient.Send(emailMessage);
                         }
 
@@ -246,30 +245,3 @@ namespace Project_Databas.Models
     }
 }
 
-/*
-MailMessage from = new MailMessage("linneanilsson00@gmail.com");
-MailMessage to = new MailMessage(glomt_mail);
-MailMessage mm = new MailMessage(from, to);
-mm.Subject = "Återställ ditt lösenord";
-mm.Body = string.Format("Ditt lösenord är", mail, losen);
-mm.IsBodyHtml = true;
-SmtpClient smtp = new SmtpClient();
-smtp.Host = "smtp.gmail.com";
-smtp.EnableSsl = true;
-NetworkCredential nc = new NetworkCredential();
-nc.UserName = "linneanilsson00@gmail.com";
-nc.Password = "newpassword";
-smtp.UseDefaultCredentials = true;
-smtp.Credentials = nc;
-smtp.Port = 587;
-smtp.Send(mm);
-Labmsg.Text = "Ditt lösenord har skickats till " + TxtEmail.Text;
-Labmsg.ForeColor = Color.Green;
-
-}
-else
-{
-Labmsg.Text = TxtEmail.Text + "Mailen finns inte registrerad";
-Labmsg.ForeColor = Color.Red;
-}
-*/
