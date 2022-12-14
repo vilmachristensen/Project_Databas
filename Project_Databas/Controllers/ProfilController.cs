@@ -71,7 +71,11 @@ namespace Project_Databas.Controllers
             string error = "";
             i = pm.SkapaKonto(pd, out error);
 
-            if (i == 1) { return RedirectToAction("MinProfil", pd); }
+            if (i == 1) {
+                string s = pd.Pr_Mail;
+                HttpContext.Session.SetString("session", s);
+                return RedirectToAction("MinProfil", pd);
+            }
             else return View("SkapaKonto");
         }
 
