@@ -25,11 +25,11 @@ namespace Project_Databas.Models
             try
             {
                 Byte[] bytes = null;
-                if (pd.ImageFile != null)
+                if (pd.Pr_Bild != null)
                 {
                     using (MemoryStream ms = new MemoryStream())
                     {
-                        pd.ImageFile.OpenReadStream().CopyTo(ms);
+                        pd.Pr_Bild.OpenReadStream().CopyTo(ms);
                         bytes = ms.ToArray();
                     }
 

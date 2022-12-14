@@ -99,10 +99,12 @@ namespace Project_Databas.Controllers
         // VISA DETALJER PROFIL
         public IActionResult Detaljer(string Pr_Mail, string Pr_Losenord)
         {
+            ProfilDetaljer pd = new ProfilDetaljer();
+
             string s = HttpContext.Session.GetString("session");
             ViewBag.user = s;
 
-            ProfilDetaljer pd = new ProfilDetaljer();
+            //ProfilDetaljer pd = new ProfilDetaljer();
             ProfilMetod pm = new ProfilMetod();
             pd = pm.GetProfil(Pr_Mail, Pr_Losenord, out string error);
 
@@ -123,11 +125,16 @@ namespace Project_Databas.Controllers
         // LADDA UPP BILD
 
         [HttpGet]
-        public IActionResult Uppladdning()
+        public IActionResult Uppladdning(string Pr_Mail, string Pr_Losenord)
         {
             string s = HttpContext.Session.GetString("session");
             ViewBag.user = s;
-            return View();
+
+            ProfilDetaljer pd = new ProfilDetaljer();
+            ProfilMetod pm = new ProfilMetod();
+            pd = pm.GetProfil(Pr_Mail, Pr_Losenord, out string error);
+
+            return View(pd);
         }
 
         [HttpPost]
@@ -138,19 +145,13 @@ namespace Project_Databas.Controllers
             ViewBag.user = s;
 
             BildMetoder bm = new BildMetoder();
-            ProfilMetod pm = new ProfilMetod();
-            ProfilDetaljer profilInfo = new ProfilDetaljer();
-
             Byte[] bytes = bm.Upload(out string errormsg, pd, s);
-
-            profilInfo = pm.GetProfil(pd.Pr_Mail, pd.Pr_Losenord, out string errormsg2);
-
 
             var stream = new MemoryStream(bytes);
             IFormFile img = new FormFile(stream, 0, bytes.Length, "name", "fileName");
-            pd.ImageFile = img;
+            pd.Pr_Bild = img;
 
-            return RedirectToAction("Detaljer",profilInfo);
+            return RedirectToAction("Detaljer", pd);
         }
 
         [NonAction]

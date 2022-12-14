@@ -223,7 +223,7 @@ namespace Project_Databas.Models
                         using (SmtpClient MailClient = new SmtpClient("smtp.gmail.com", 587))
                         {
                             MailClient.EnableSsl = true;
-                            MailClient.Credentials = new System.Net.NetworkCredential("linneanilsson00@gmail.com", "MorotPotatis2000");
+                            MailClient.Credentials = new System.Net.NetworkCredential("linneanilsson00@gmail.com", "password");
                             MailClient.Send(emailMessage);
                         }
 

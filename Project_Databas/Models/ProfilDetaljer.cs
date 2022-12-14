@@ -33,7 +33,7 @@ namespace Project_Databas.Models
         public int Pr_Bor { get; set; }
 
         [Display(Name = "Ladda upp profilbild")]
-        public IFormFile ImageFile { get; set; }
+        public IFormFile Pr_Bild { get; set; }
     }
 
 }
