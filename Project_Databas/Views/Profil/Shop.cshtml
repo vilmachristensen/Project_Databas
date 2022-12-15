@@ -1,4 +1,4 @@
-﻿@model Project_Databas.Models.ProfilDetaljer
+﻿@model Project_Databas.Models.ProduktDetaljer
 @{
     ViewData["Title"] = "Shop";
 }
@@ -9,10 +9,15 @@
 
 <div class="container">
     <div class="item1">
-        <a href="/Profil/Item1"><img src="~/img/filt.jpeg" width="250" border="0" alt="filt.jpeg"></a>
+        <a href="@Url.Action("Item", "Profil", new { id = Model.Prd_Id })" class="links">
+        <img alt="filt.jpeg" src="@Url.Content("~/img/filt.jpeg")" width="250" border="0">
+        </a>
     </div>
     <div class="item2">
-        <img src="~/img/förvaring.webp" alt="förvaring.webp" width="250">
+        <a href="@Url.Action("Item", "Profil", new { id = Model.Prd_Id })" class="links">
+            <img alt="förvaring.webp" src="@Url.Content("~/img/förvaring.webp")" width="250" border="0">
+        </a>
+
     </div>
     <div class="item3">
         <img src="~/img/gryta.webp" alt="gryta.webp" width="250">
@@ -21,14 +26,14 @@
         <img src="~/img/kopp.webp" alt="kopp.webp" width="250">
     </div>
     <div class="item1_text">
-        <strong>Ullpläd</strong>
-        <p>Borstad pläd, Multi Red</p>
-        <strong>249 kr</strong>
+            <strong>@Html.DisplayFor(model => model.Prd_Namn)</strong>
+            <p>@Html.DisplayFor(model => model.Prd_Beskrivning)</p>
+            <strong>@Html.DisplayFor(model => model.Prd_Pris) kr</strong>
     </div>
     <div class="item2_text">
-        <strong>Förvaringslådor</strong>
-        <p>Av återvunnet papper</p>
-        <strong>149 kr</strong>
+        <strong>@Html.DisplayFor(model => model.Prd_Namn)</strong>
+        <p>@Html.DisplayFor(model => model.Prd_Beskrivning)</p>
+        <strong>@Html.DisplayFor(model => model.Prd_Pris) kr</strong>
     </div>
     <div class="item3_text">
         <strong>Gjutjärnsgryta</strong>
