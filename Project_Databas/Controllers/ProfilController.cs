@@ -206,6 +206,12 @@ namespace Project_Databas.Controllers
         {
             return View();
         }
+
+        // VALD VARA I SHOP
+        public IActionResult Item1()
+        {
+            return View();
+        }
     }
 }
 
