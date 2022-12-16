@@ -33,6 +33,9 @@ namespace Project_Databas.Controllers
             {
                 string s = pd.Pr_Mail;
                 HttpContext.Session.SetString("session", s);
+
+                int s2 = pd.Pr_Id;
+                HttpContext.Session.SetInt32("inloggatId", s2);
                 return RedirectToAction("MinProfil", pd);
             }
             else
@@ -74,6 +77,11 @@ namespace Project_Databas.Controllers
             if (i == 1) {
                 string s = pd.Pr_Mail;
                 HttpContext.Session.SetString("session", s);
+
+                pd = pm.GetProfil(pd.Pr_Mail, pd.Pr_Losenord, out string errormsg);
+
+                int s2 = pd.Pr_Id;
+                HttpContext.Session.SetInt32("inloggatId", s2);
                 return RedirectToAction("MinProfil", pd);
             }
             else return View("SkapaKonto");
@@ -238,21 +246,47 @@ namespace Project_Databas.Controllers
 
         public IActionResult Cart(int id)
         {
-            string s = HttpContext.Session.GetString("session");
-            ViewBag.user = s;
+            string sIdInt = HttpContext.Session.GetString("inloggatId");
 
-            if (s != null)
+            if (sIdInt != null)
             {
-                return View();
+                int s2 = (int)HttpContext.Session.GetInt32("inloggatId");
+
+                ProduktMetod pm = new ProduktMetod();
+                ProduktDetaljer pd = new ProduktDetaljer();
+                int i = 0;
+                
+                i = pm.InsertKundkorg(pd, s2, id, out string errormsg2);
+
+                List<KundkorgDetaljer> ProduktLista = new List<KundkorgDetaljer>();
+                ProduktLista = pm.GetKundkorg(s2, out string errormsg);
+                return View(ProduktLista);
 
             }
             else
             {
                 return RedirectToAction("Inloggning");
-            }
-
-            
+            } 
         }
+
+        /*
+         * int i = 0;
+            string error = "";
+            i = pm.SkapaKonto(pd, out error);
+
+            if (i == 1) {
+                string s = pd.Pr_Mail;
+                HttpContext.Session.SetString("session", s);
+
+                pd = pm.GetProfil(pd.Pr_Mail, pd.Pr_Losenord, out string errormsg);
+
+                int s2 = pd.Pr_Id;
+                HttpContext.Session.SetInt32("inloggatId", s2);
+                return RedirectToAction("MinProfil", pd);
+            }
+            else return View("SkapaKonto");
+        }
+         */
     }
 }
 
