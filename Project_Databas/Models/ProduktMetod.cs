@@ -186,7 +186,7 @@ namespace Project_Databas.Models
         }
 
         // LÄGG TILL PRODUKT I KUNDKORG
-        public int InsertKundkorg(ProduktDetaljer pd, int produktId, int profilId, out string errormsg)
+        public int InsertKundkorg(ProduktDetaljer pd, int profilId, int produktId, out string errormsg)
         {
             //Skapa SqlConnection
             SqlConnection dbConnection = new SqlConnection(GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);

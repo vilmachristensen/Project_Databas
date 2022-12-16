@@ -209,19 +209,7 @@ namespace Project_Databas.Controllers
             }
         }
 
-        // SHOP
-        /*
-        public IActionResult Shop()
-        {
-            ProduktDetaljer pd = new ProduktDetaljer();
-            ProduktMetod pm = new ProduktMetod();
-            pd = pm.GetProdukter(out string error);
-
-            return View(pd);
-        }
-        */
         //FÖR ATT ANVÄNDA LISTA
-
         public IActionResult Shop()
         {
             List<ProduktDetaljer> ProduktLista = new List<ProduktDetaljer>();
@@ -237,10 +225,6 @@ namespace Project_Databas.Controllers
             ProduktMetod pm = new ProduktMetod();
 
             pd = pm.GetProdukt(id, out string error);
-
-            //string s = HttpContext.Session.GetString("session");
-            //ViewBag.user = s;
-
             return View(pd);
         }
 
@@ -268,25 +252,6 @@ namespace Project_Databas.Controllers
                 return RedirectToAction("Inloggning");
             } 
         }
-
-        /*
-         * int i = 0;
-            string error = "";
-            i = pm.SkapaKonto(pd, out error);
-
-            if (i == 1) {
-                string s = pd.Pr_Mail;
-                HttpContext.Session.SetString("session", s);
-
-                pd = pm.GetProfil(pd.Pr_Mail, pd.Pr_Losenord, out string errormsg);
-
-                int s2 = pd.Pr_Id;
-                HttpContext.Session.SetInt32("inloggatId", s2);
-                return RedirectToAction("MinProfil", pd);
-            }
-            else return View("SkapaKonto");
-        }
-         */
     }
 }
 
