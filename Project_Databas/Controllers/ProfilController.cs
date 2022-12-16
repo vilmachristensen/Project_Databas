@@ -39,7 +39,7 @@ namespace Project_Databas.Controllers
             {
                 string error = "Felaktig mail eller lösenord";
                 ViewBag.error = error;
-                return View("Inloggning");
+                return View("Shop");
             }
         }
         // MIN PROFIL
@@ -202,6 +202,7 @@ namespace Project_Databas.Controllers
         }
 
         // SHOP
+        /*
         public IActionResult Shop()
         {
             ProduktDetaljer pd = new ProduktDetaljer();
@@ -210,7 +211,9 @@ namespace Project_Databas.Controllers
 
             return View(pd);
         }
-        /* FÖR ATT ANVÄNDA LISTA
+        */
+        //FÖR ATT ANVÄNDA LISTA
+
         public IActionResult Shop()
         {
             List<ProduktDetaljer> ProduktLista = new List<ProduktDetaljer>();
@@ -218,7 +221,7 @@ namespace Project_Databas.Controllers
             ProduktLista = pm.GetProdukter(out string error);
 
             return View(ProduktLista);
-        }*/
+        }
 
         public IActionResult Item(int id)
         {
@@ -231,6 +234,22 @@ namespace Project_Databas.Controllers
             //ViewBag.user = s;
 
             return View(pd);
+        }
+
+        public IActionResult Cart(int id)
+        {
+            string s = HttpContext.Session.GetString("session");
+            ViewBag.user = s;
+
+            if (s != null)
+            {
+            }
+            else
+            {
+                RedirectToAction("Inloggning");
+            }
+
+            return View();
         }
     }
 }

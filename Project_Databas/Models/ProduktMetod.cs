@@ -18,8 +18,8 @@ namespace Project_Databas.Models
         }
 
         // HÄMTA ALL PRODUKTINFO
-        //public List<ProduktDetaljer>GetProdukter(out string errormsg)
-        public ProduktDetaljer GetProdukter(out string errormsg)
+        public List<ProduktDetaljer>GetProdukter(out string errormsg)
+        //public ProduktDetaljer GetProdukter(out string errormsg)
         {
             //Skapa SqlConnection
             SqlConnection dbConnection = new SqlConnection(GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
@@ -30,7 +30,7 @@ namespace Project_Databas.Models
             SqlDataAdapter myAdapter = new SqlDataAdapter(dbCommand);
             DataSet myDS = new DataSet();
 
-            //List<ProduktDetaljer> ProduktLista = new List<ProduktDetaljer>();
+            List<ProduktDetaljer> ProduktLista = new List<ProduktDetaljer>();
 
             try
             {
@@ -46,8 +46,8 @@ namespace Project_Databas.Models
 
                 if (count > 0)
                 {
-                    /*while (i < count)
-                    {*/
+                    while (i < count)
+                    {
                         //Läser ut data från dataset
                         ProduktDetaljer pd = new ProduktDetaljer();
                         pd.Prd_Id = Convert.ToInt16(myDS.Tables["produkt"].Rows[i]["Prd_Id"]);
@@ -55,13 +55,13 @@ namespace Project_Databas.Models
                         pd.Prd_Pris = Convert.ToInt16(myDS.Tables["produkt"].Rows[i]["Prd_Pris"]);
                         pd.Prd_Beskrivning = myDS.Tables["produkt"].Rows[i]["Prd_Beskrivning"].ToString();
 
-                    /*i++;
-                    ProduktLista.Add(pd);*/
+                    i++;
+                    ProduktLista.Add(pd);
+                    //errormsg = "";
+                    //return pd;
+                    }
                     errormsg = "";
-                    return pd;
-                    //}
-                //errormsg = "";
-                //return ProduktLista;
+                    return ProduktLista;
 
                 }
                 else
