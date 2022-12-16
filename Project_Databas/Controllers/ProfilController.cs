@@ -243,13 +243,14 @@ namespace Project_Databas.Controllers
 
             if (s != null)
             {
+                return View();
             }
             else
             {
-                RedirectToAction("Inloggning");
+                return RedirectToAction("Inloggning");
             }
 
-            return View();
+            
         }
     }
 }
