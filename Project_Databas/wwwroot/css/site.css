@@ -14,5 +14,10 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    background-color: #ffffff;
+    margin-bottom: 60px;
+}
+
+header {
+    background-color: #f5f3f0;
 }
