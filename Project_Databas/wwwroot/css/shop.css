@@ -5,14 +5,16 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 0.5fr 1fr 0.5fr;
-    gap: 8px 8px;
+    gap: 8px 18px;
     grid-auto-flow: row;
     grid-template-areas:
         "item1 item2 item3 item4"
         "item1_text item2_text item3_text item4_text"
         "item5 item6 item7 item8"
         "item5_text item6_text item7_text item8_text";
-    align-content: center;
+    margin-left: 5vw;
+    margin-bottom: -60vh;
+    margin-top: 5vh;
 }
 
 .item1 {
@@ -77,4 +79,8 @@
 
 .item8_text {
     grid-area: item8_text;
+}
+
+footer {
+    margin-bottom: -25vh;
 }

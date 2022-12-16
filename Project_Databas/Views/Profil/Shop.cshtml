@@ -1,4 +1,4 @@
-﻿@model Project_Databas.Models.ProfilDetaljer
+﻿@model Project_Databas.Models.ProduktDetaljer
 @{
     ViewData["Title"] = "Shop";
 }
@@ -9,33 +9,72 @@
 
 <div class="container">
     <div class="item1">
-        <img src="~/img/filt.jpeg" alt="filt.jpeg" width="200">
+        <a href="@Url.Action("Item", "Profil", new { id = Model.Prd_Id })" class="links">
+        <img alt="filt.jpeg" src="@Url.Content("~/img/filt.jpeg")" width="250" border="0">
+        </a>
     </div>
     <div class="item2">
-        <img src="~/img/förvaring.webp" alt="förvaring.webp" width="200">
+        <a href="@Url.Action("Item", "Profil", new { id = Model.Prd_Id })" class="links">
+            <img alt="förvaring.webp" src="@Url.Content("~/img/förvaring.webp")" width="250" border="0">
+        </a>
+
     </div>
     <div class="item3">
-        <img src="~/img/gryta.webp" alt="gryta.webp" width="200">
+        <img src="~/img/gryta.webp" alt="gryta.webp" width="250">
     </div>
     <div class="item4">
-        <img src="~/img/kopp.webp" alt="kopp.webp" width="200">
+        <img src="~/img/kopp.webp" alt="kopp.webp" width="250">
     </div>
     <div class="item1_text">
-        <p>Hej</p>
+            <strong>@Html.DisplayFor(model => model.Prd_Namn)</strong>
+            <p>@Html.DisplayFor(model => model.Prd_Beskrivning)</p>
+            <strong>@Html.DisplayFor(model => model.Prd_Pris) kr</strong>
     </div>
-    <div class="item2_text"></div>
-    <div class="item3_text"></div>
-    <div class="item4_text"></div>
+    <div class="item2_text">
+        <strong>@Html.DisplayFor(model => model.Prd_Namn)</strong>
+        <p>@Html.DisplayFor(model => model.Prd_Beskrivning)</p>
+        <strong>@Html.DisplayFor(model => model.Prd_Pris) kr</strong>
+    </div>
+    <div class="item3_text">
+        <strong>Gjutjärnsgryta</strong>
+        <p>3,3L, Black</p>
+        <strong>399 kr</strong>
+    </div>
+    <div class="item4_text">
+        <strong>Kopp</strong>
+        <p>RILL, Clear</p>
+        <strong>99 kr</strong>
+    </div>
     <div class="item5">
-        <img src="~/img/ljus.webp" alt="ljus.webp" width="200">
+        <img src="~/img/ljus.webp" alt="ljus.webp" width="250">
     </div>
     <div class="item6">
-        <img src="~/img/mortel.webp" alt="mortel.webp" width="200">
+        <img src="~/img/mortel.webp" alt="mortel.webp" width="250">
     </div>
-    <div class="item7"></div>
-    <div class="item8"></div>
-    <div class="item5_text"></div>
-    <div class="item6_text"></div>
-    <div class="item7_text"></div>
-    <div class="item8_text"></div>
+    <div class="item7">
+        <img src="~/img/kudde.webp" alt="mortel.webp" width="250">
+    </div>
+    <div class="item8">
+        <img src="~/img/kruka.webp" alt="mortel.webp" width="250">
+    </div>
+    <div class="item5_text">
+        <strong>Doftljus</strong>
+        <p>Pion, 210 G</p>
+        <strong>149 kr</strong>
+    </div>
+    <div class="item6_text">
+        <strong>Mortel</strong>
+        <p>BISTRO, White</p>
+        <strong>199 kr</strong>
+    </div>
+    <div class="item7_text">
+        <strong>Kuddfodral</strong>
+        <p>50x50 cm, White, Red</p>
+        <strong>379 kr</strong>
+    </div>
+    <div class="item8_text">
+        <strong>Blomkruka</strong>
+        <p>Stengods LAGE, White Dot</p>
+        <strong>299 kr</strong>
+    </div>
 </div>

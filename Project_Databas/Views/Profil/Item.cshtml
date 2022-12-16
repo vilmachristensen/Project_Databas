@@ -1,0 +1,35 @@
+﻿@model Project_Databas.Models.ProduktDetaljer
+@{
+    ViewData["Title"] = "Shop";
+}
+
+<h3>Mer info om varan</h3>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Prd_Namn)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Prd_Namn)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Prd_Beskrivning)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Prd_Beskrivning)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Prd_Pris)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Prd_Pris)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Prd_Id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Prd_Id)
+        </dd>
+    </dl>
+</div>

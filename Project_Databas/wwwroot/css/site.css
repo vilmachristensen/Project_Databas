@@ -14,10 +14,22 @@ html {
 }
 
 body {
-    background-color: #ffffff;
     margin-bottom: 60px;
 }
 
 header {
-    background-color: #f5f3f0;
+    background-color: #F9F6F5;
+}
+
+a {
+    color: #333333;
+}
+
+a:hover {
+    color: #5C5C5C;
+}
+
+h3 {
+    color: #333333;
+    font-family: "Monaco", monospace;
 }

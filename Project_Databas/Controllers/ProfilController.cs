@@ -204,7 +204,33 @@ namespace Project_Databas.Controllers
         // SHOP
         public IActionResult Shop()
         {
-            return View();
+            ProduktDetaljer pd = new ProduktDetaljer();
+            ProduktMetod pm = new ProduktMetod();
+            pd = pm.GetProdukter(out string error);
+
+            return View(pd);
+        }
+        /* FÖR ATT ANVÄNDA LISTA
+        public IActionResult Shop()
+        {
+            List<ProduktDetaljer> ProduktLista = new List<ProduktDetaljer>();
+            ProduktMetod pm = new ProduktMetod();
+            ProduktLista = pm.GetProdukter(out string error);
+
+            return View(ProduktLista);
+        }*/
+
+        public IActionResult Item(int id)
+        {
+            ProduktDetaljer pd = new ProduktDetaljer();
+            ProduktMetod pm = new ProduktMetod();
+
+            pd = pm.GetProdukt(id, out string error);
+
+            //string s = HttpContext.Session.GetString("session");
+            //ViewBag.user = s;
+
+            return View(pd);
         }
     }
 }
