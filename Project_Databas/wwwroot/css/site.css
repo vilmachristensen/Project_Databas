@@ -31,5 +31,24 @@ a:hover {
 
 h3 {
     color: #333333;
-    font-family: "Monaco", monospace;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.btn-dark {
+    background-color: #819177;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.btn-dark:hover {
+    background-color: #65735c;
+    transform: translateY(-2px);
 }
