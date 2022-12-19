@@ -17,6 +17,8 @@ namespace Project_Databas.Models
 
         [Display(Name = "Pris")]
         public int Prd_Pris { get; set; }
+
+        public int Prd_Id { get; set; }
     }
 }
 

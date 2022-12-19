@@ -21,7 +21,7 @@ namespace Project_Databas.Models
         }
 
         // LADDA UPP BILD
-        public Byte[] Upload(out string errormsg, ProfilDetaljer pd, string user)
+        public Byte[] Upload(out string errormsg, ProfilDetaljer pd, int profilId)
         {
             try
             {
@@ -37,11 +37,11 @@ namespace Project_Databas.Models
                     string connectionstring = GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value;
                     SqlConnection con = new SqlConnection(connectionstring);
 
-                    SqlCommand cmd = new SqlCommand("UPDATE Tbl_Profil SET Pr_Bild = @bild WHERE Pr_Mail = @user", con);
+                    SqlCommand cmd = new SqlCommand("UPDATE Tbl_Profil SET Pr_Bild = @bild WHERE Pr_Id = @profilId", con);
 
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("bild", bytes);
-                    cmd.Parameters.AddWithValue("user", user);
+                    cmd.Parameters.AddWithValue("profilId", profilId);
                     con.Open();
                     cmd.ExecuteNonQuery();
                     con.Close();
@@ -60,14 +60,14 @@ namespace Project_Databas.Models
         }
 
         // VISA BILD
-        public Byte[] ViewPicture(out string errormsg, string user)
+        public Byte[] ViewPicture(out string errormsg, int profilId)
         {
             SqlConnection dbConnection = new SqlConnection(GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
 
-            String sqlstring = "SELECT Pr_Bild FROM Tbl_Profil WHERE Pr_Mail = @user";
+            String sqlstring = "SELECT Pr_Bild FROM Tbl_Profil WHERE Pr_Id = @profilId";
             SqlCommand dbCommand = new SqlCommand(sqlstring, dbConnection);
 
-            dbCommand.Parameters.Add("user", SqlDbType.NVarChar, 30).Value = user;
+            dbCommand.Parameters.Add("profilId", SqlDbType.NVarChar, 30).Value = profilId;
 
             SqlDataReader reader = null;
 

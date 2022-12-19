@@ -145,7 +145,7 @@ namespace Project_Databas.Models
             //Skapa SqlConnection
             SqlConnection dbConnection = new SqlConnection(GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
 
-            String sqlstring = "SELECT Tbl_Profil.Pr_Namn, Tbl_Produkt.Prd_Namn, Tbl_Produkt.Prd_Pris\nFROM ((Tbl_Profil\nINNER JOIN Tbl_Kundkorg ON Tbl_Profil.Pr_Id = Tbl_Kundkorg.Pr_Id)\nINNER JOIN Tbl_Produkt ON Tbl_Kundkorg.Prd_Id = Tbl_Produkt.Prd_Id) WHERE Tbl_Profil.Pr_Id = @profilId";
+            String sqlstring = "SELECT Tbl_Profil.Pr_Namn, Tbl_Produkt.Prd_Namn, Tbl_Produkt.Prd_Pris, Tbl_Produkt.Prd_Id\nFROM ((Tbl_Profil\nINNER JOIN Tbl_Kundkorg ON Tbl_Profil.Pr_Id = Tbl_Kundkorg.Pr_Id)\nINNER JOIN Tbl_Produkt ON Tbl_Kundkorg.Prd_Id = Tbl_Produkt.Prd_Id) WHERE Tbl_Profil.Pr_Id = @profilId";
             //String sqlstring = "Select * From Tbl_Kundkorg WHERE Pr_Id = @id";
             SqlCommand dbCommand = new SqlCommand(sqlstring, dbConnection);
 
@@ -168,6 +168,7 @@ namespace Project_Databas.Models
                     kd.Prd_Namn = reader["Prd_Namn"].ToString();
                     kd.Pr_Namn = reader["Pr_Namn"].ToString();
                     kd.Prd_Pris = Convert.ToInt16(reader["Prd_Pris"]);
+                    kd.Prd_Id = Convert.ToInt16(reader["Prd_Id"]);
 
                     KundkorgLista.Add(kd);
                 }
@@ -207,6 +208,34 @@ namespace Project_Databas.Models
                 i = dbCommand.ExecuteNonQuery();
                 if (i == 1) { errormsg = ""; }
                 else { errormsg = "Det läggs inte till i kundkorgen."; }
+                return (i);
+            }
+            catch (Exception e)
+            {
+                errormsg = e.Message;
+                return 0;
+            }
+            finally
+            {
+                dbConnection.Close();
+            }
+        }
+
+        // TA BORT 
+        public int DeleteProdukt(int id, out string errormsg)
+        {
+            SqlConnection dbConnection = new SqlConnection(GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
+
+            String sqlstring = "Delete From Tbl_Kundkorg Where Prd_Id LIKE '%" + id + "%'";
+            SqlCommand dbCommand = new SqlCommand(sqlstring, dbConnection);
+
+            try
+            {
+                dbConnection.Open();
+                int i = 0;
+                i = dbCommand.ExecuteNonQuery();
+                if (i == 1) { errormsg = ""; }
+                else { errormsg = "Det raderas inte någon användare från databasen!"; }
                 return (i);
             }
             catch (Exception e)

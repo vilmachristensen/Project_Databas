@@ -17,10 +17,6 @@
     </div>
 </div>
 
-<div>
-    @Html.ActionLink("Ladda upp en bild här", "Uppladdning", new { Pr_Mail = Model.Pr_Mail, Pr_Losenord = Model.Pr_Losenord })
-    <br/>
-</div>
 
 
 <div>
@@ -51,3 +47,15 @@
         </dd>
     </dl>
 </div>
+
+<div>
+    @Html.ActionLink("Redigera profil", "Uppladdning", new { Pr_Mail = Model.Pr_Mail, Pr_Losenord = Model.Pr_Losenord })
+    <br />
+</div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<button type="button" class="btn btn-dark" onclick="location.href='@Url.Action("Inloggning", "Profil")'">Logga ut</button>

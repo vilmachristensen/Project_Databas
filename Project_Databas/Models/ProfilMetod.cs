@@ -66,6 +66,7 @@ namespace Project_Databas.Models
             }
         }
 
+        // HÄMTA PROFIL
         public ProfilDetaljer GetProfil(string profil_mail, string profil_losenord, out string errormsg)
         {
             //Skapa SqlConnection
@@ -76,6 +77,68 @@ namespace Project_Databas.Models
 
             dbCommand.Parameters.Add("mail", SqlDbType.NVarChar, 30).Value = profil_mail;
             dbCommand.Parameters.Add("losenord", SqlDbType.NVarChar, 30).Value = profil_losenord;
+
+            SqlDataAdapter myAdapter = new SqlDataAdapter(dbCommand);
+            DataSet myDS = new DataSet();
+
+
+            try
+            {
+                //Öppna connection till databasen
+                dbConnection.Open();
+
+                //Fyller dataset med data i en tabell med namnet myPerson
+                myAdapter.Fill(myDS, "myPerson");
+
+                int count = 0;
+                int i = 0;
+                count = myDS.Tables["myPerson"].Rows.Count;
+
+                if (count > 0)
+                {
+                    //Läser ut data från dataset
+                    ProfilDetaljer pd = new ProfilDetaljer();
+                    pd.Pr_Id = Convert.ToInt16(myDS.Tables["myPerson"].Rows[i]["Pr_Id"]);
+                    pd.Pr_Namn = myDS.Tables["myPerson"].Rows[i]["Pr_Namn"].ToString();
+                    pd.Pr_Mail = myDS.Tables["myPerson"].Rows[i]["Pr_Mail"].ToString();
+                    pd.Pr_Bor = Convert.ToInt16(myDS.Tables["myPerson"].Rows[i]["Pr_Bor"]);
+                    pd.Pr_Losenord = myDS.Tables["myPerson"].Rows[i]["Pr_Losenord"].ToString();
+
+
+                    errormsg = "";
+                    return pd;
+
+                }
+                else
+                {
+                    errormsg = "Det hämtas ingen Person";
+                    return (null);
+                }
+            }
+
+            catch (Exception e)
+            {
+                errormsg = e.Message;
+                return null;
+            }
+            finally
+            {
+                dbConnection.Close();
+            }
+
+        }
+
+        // HÄMTA INLOGGAD PROFIL
+
+        public ProfilDetaljer GetInloggedProfil(int profilId, out string errormsg)
+        {
+            //Skapa SqlConnection
+            SqlConnection dbConnection = new SqlConnection(GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
+
+            String sqlstring = "Select * From Tbl_Profil WHERE Pr_Id = @profilId";
+            SqlCommand dbCommand = new SqlCommand(sqlstring, dbConnection);
+
+            dbCommand.Parameters.Add("profilId", SqlDbType.NVarChar, 30).Value = profilId;
 
             SqlDataAdapter myAdapter = new SqlDataAdapter(dbCommand);
             DataSet myDS = new DataSet();

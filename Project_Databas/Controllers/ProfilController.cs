@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bumblebee.Setup;
 using Microsoft.AspNetCore.Mvc;
 using Project_Databas.Models;
 
@@ -18,6 +19,9 @@ namespace Project_Databas.Controllers
         [HttpGet]
         public IActionResult Inloggning()
         {
+            HttpContext.Session.Remove("session");
+            HttpContext.Session.Remove("inloggatId");
+
             return View();
         }
 
@@ -42,21 +46,34 @@ namespace Project_Databas.Controllers
             {
                 string error = "Felaktig mail eller lösenord";
                 ViewBag.error = error;
-                return View("Shop");
+                return View("Inloggning");
             }
         }
         // MIN PROFIL
         public IActionResult MinProfil(string Pr_Mail, string Pr_Losenord)
         {
-            ProfilDetaljer pd = new ProfilDetaljer();
-            ProfilMetod pm = new ProfilMetod();
-            pd = pm.GetProfil(Pr_Mail, Pr_Losenord, out string error);
-
             string s = HttpContext.Session.GetString("session");
             ViewBag.user = s;
 
-            ViewBag.error = error;
-            return View(pd);
+            //string s = HttpContext.Session.GetString("session");
+            //ViewBag.user = s;
+
+            if(s != null)
+            {
+                int s2 = (int)HttpContext.Session.GetInt32("inloggatId");
+
+                ProfilDetaljer pd = new ProfilDetaljer();
+                ProfilMetod pm = new ProfilMetod();
+                pd = pm.GetInloggedProfil(s2, out string error);
+
+                ViewBag.error = error;
+                return RedirectToAction("Detaljer", pd);
+                //return View(pd);
+            }
+            else
+            {
+                return RedirectToAction("Inloggning");
+            }
         }
 
         // SKAPA KONTO
@@ -113,19 +130,21 @@ namespace Project_Databas.Controllers
         {
             ProfilDetaljer pd = new ProfilDetaljer();
 
-            string s = HttpContext.Session.GetString("session");
-            ViewBag.user = s;
+            //string s = HttpContext.Session.GetString("session");
+            //ViewBag.user = s;
+
+            int s2 = (int)HttpContext.Session.GetInt32("inloggatId");
 
             ProfilMetod pm = new ProfilMetod();
-            pd = pm.GetProfil(Pr_Mail, Pr_Losenord, out string error);
+            pd = pm.GetInloggedProfil(s2, out string error);
 
-       
+
             BildMetoder bm = new BildMetoder();
 
             ViewBag.picture = null;
-            if (bm.ViewPicture(out string errormsg, s) != null)
+            if (bm.ViewPicture(out string errormsg, s2) != null)
             {
-                Byte[] bytes = bm.ViewPicture(out string errormsg2,s);
+                Byte[] bytes = bm.ViewPicture(out string errormsg2,s2);
 
                 ViewBag.picture = ViewImage(bytes);
             }
@@ -155,12 +174,22 @@ namespace Project_Databas.Controllers
             string s = HttpContext.Session.GetString("session");
             ViewBag.user = s;
 
-            BildMetoder bm = new BildMetoder();
-            Byte[] bytes = bm.Upload(out string errormsg, pd, s);
+            int s2 = (int)HttpContext.Session.GetInt32("inloggatId");
 
-            var stream = new MemoryStream(bytes);
-            IFormFile img = new FormFile(stream, 0, bytes.Length, "name", "fileName");
-            pd.Pr_Bild = img;
+            ProfilMetod pm = new ProfilMetod();
+            int i = 0;
+            string error = "";
+            i = pm.EditProfil(pd, out error);
+
+            if(pd.Pr_Bild != null)
+            {
+                BildMetoder bm = new BildMetoder();
+                Byte[] bytes = bm.Upload(out string errormsg, pd, s2);
+
+                var stream = new MemoryStream(bytes);
+                IFormFile img = new FormFile(stream, 0, bytes.Length, "name", "fileName");
+                pd.Pr_Bild = img;
+            }
 
             return RedirectToAction("Detaljer", pd);
         }
@@ -251,6 +280,16 @@ namespace Project_Databas.Controllers
             {
                 return RedirectToAction("Inloggning");
             } 
+        }
+
+        // TA BORT PRODUKT
+        public IActionResult RaderaProdukt(int id)
+        {
+            ProduktMetod pm = new ProduktMetod();
+            string error = "";
+            int i = 0;
+            i = pm.DeleteProdukt(id, out error);
+            return RedirectToAction("Cart");
         }
     }
 }

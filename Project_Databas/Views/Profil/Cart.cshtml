@@ -17,6 +17,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Prd_Pris)
             </th>
+            <th>
+
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -31,6 +34,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Prd_Pris)
+                </td>
+                <td>
+                    @Html.ActionLink("Ta bort", "RaderaProdukt", new { id = item.Prd_Id })
                 </td>
             </tr>
         }
