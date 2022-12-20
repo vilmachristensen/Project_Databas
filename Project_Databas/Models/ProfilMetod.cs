@@ -195,7 +195,7 @@ namespace Project_Databas.Models
                 int i = 0;
                 i = dbCommand.ExecuteNonQuery();
                 if (i == 1) { errormsg = ""; }
-                else { errormsg = "Det görs inga uppdateringar!"; }
+                else { errormsg = "Det görs inga ändringar i profilen"; }
                 return (i);
             }
             catch (Exception e)
@@ -223,7 +223,7 @@ namespace Project_Databas.Models
                 int i = 0;
                 i = dbCommand.ExecuteNonQuery();
                 if (i == 1) { errormsg = ""; }
-                else { errormsg = "Det raderas inte någon användare från databasen!"; }
+                else { errormsg = "Det raderas inte någon profil från databasen"; }
                 return (i);
             }
             catch (Exception e)
@@ -239,7 +239,6 @@ namespace Project_Databas.Models
 
 
         // SKICKA MAIL
-
         public Boolean SendMail(string glomt_mail, out string errormsg)
         {
             // Skapa SqlConnection
