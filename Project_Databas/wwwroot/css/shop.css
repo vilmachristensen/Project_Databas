@@ -1,7 +1,7 @@
 ﻿body {
 }
 
-.container {
+.bild-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 0.5fr 1fr 0.5fr;
@@ -13,7 +13,7 @@
         "item5 item6 item7 item8"
         "item5_text item6_text item7_text item8_text";
     margin-left: 5vw;
-    margin-bottom: -70vh;
+    margin-bottom: -5vh;
     margin-top: 5vh;
 }
 
