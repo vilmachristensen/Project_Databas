@@ -34,7 +34,6 @@ namespace Project_Databas.Models
             //Skapa SqlConnection
             SqlConnection dbConnection = new SqlConnection(GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
 
-            //SqlString och lägg till en user i databasen
             String sqlstring = "INSERT INTO [Tbl_Profil]([Pr_Namn], [Pr_Mail], [Pr_Bor], [Pr_Losenord]) VALUES (@Pr_Namn, @Pr_Mail, @Pr_Bor, @Pr_Losenord)";
             SqlCommand dbCommand = new SqlCommand(sqlstring, dbConnection);
 
@@ -46,10 +45,8 @@ namespace Project_Databas.Models
 
             try
             {
-                //Öppna connection till databasen
                 dbConnection.Open();
                 int i = 0;
-                //Skicka SQL-frågan till databasen, får tillbaka en int
                 i = dbCommand.ExecuteNonQuery();
                 if (i == 1) { errormsg = ""; }
                 else { errormsg = "Det skapas inte en person i databasen."; }
@@ -84,10 +81,8 @@ namespace Project_Databas.Models
 
             try
             {
-                //Öppna connection till databasen
                 dbConnection.Open();
 
-                //Fyller dataset med data i en tabell med namnet myPerson
                 myAdapter.Fill(myDS, "myPerson");
 
                 int count = 0;
@@ -96,7 +91,6 @@ namespace Project_Databas.Models
 
                 if (count > 0)
                 {
-                    //Läser ut data från dataset
                     ProfilDetaljer pd = new ProfilDetaljer();
                     pd.Pr_Id = Convert.ToInt16(myDS.Tables["myPerson"].Rows[i]["Pr_Id"]);
                     pd.Pr_Namn = myDS.Tables["myPerson"].Rows[i]["Pr_Namn"].ToString();
@@ -111,7 +105,7 @@ namespace Project_Databas.Models
                 }
                 else
                 {
-                    errormsg = "Det hämtas ingen Person";
+                    errormsg = "Det hämtas ingen profil";
                     return (null);
                 }
             }
@@ -129,7 +123,6 @@ namespace Project_Databas.Models
         }
 
         // HÄMTA INLOGGAD PROFIL
-
         public ProfilDetaljer GetInloggedProfil(int profilId, out string errormsg)
         {
             //Skapa SqlConnection
@@ -146,10 +139,8 @@ namespace Project_Databas.Models
 
             try
             {
-                //Öppna connection till databasen
                 dbConnection.Open();
 
-                //Fyller dataset med data i en tabell med namnet myPerson
                 myAdapter.Fill(myDS, "myPerson");
 
                 int count = 0;
@@ -158,7 +149,6 @@ namespace Project_Databas.Models
 
                 if (count > 0)
                 {
-                    //Läser ut data från dataset
                     ProfilDetaljer pd = new ProfilDetaljer();
                     pd.Pr_Id = Convert.ToInt16(myDS.Tables["myPerson"].Rows[i]["Pr_Id"]);
                     pd.Pr_Namn = myDS.Tables["myPerson"].Rows[i]["Pr_Namn"].ToString();
@@ -173,7 +163,7 @@ namespace Project_Databas.Models
                 }
                 else
                 {
-                    errormsg = "Det hämtas ingen Person";
+                    errormsg = "Det hämtas ingen inloggad profil";
                     return (null);
                 }
             }
@@ -250,7 +240,7 @@ namespace Project_Databas.Models
 
         // SKICKA MAIL
 
-        public void SendMail(string glomt_mail, out string errormsg)
+        public Boolean SendMail(string glomt_mail, out string errormsg)
         {
             // Skapa SqlConnection
             SqlConnection dbConnection = new SqlConnection(GetConnection().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
@@ -287,6 +277,7 @@ namespace Project_Databas.Models
                             MailClient.EnableSsl = true;
                             MailClient.Credentials = new System.Net.NetworkCredential("retroshoppen123@outlook.com", "qvzgiujmpyjavbkl");
                             MailClient.Send(emailMessage);
+                            return true;
                         }
 
                     }
@@ -294,11 +285,12 @@ namespace Project_Databas.Models
                 }
 
                 reader.Close();
+                return false;
             }
             catch (Exception e)
             {
                 errormsg = e.Message;
-                //return null;
+                return false;
             }
             finally
             {

@@ -19,6 +19,12 @@ namespace Project_Databas.Controllers
         [HttpGet]
         public IActionResult Inloggning()
         {
+            if (TempData["success"] != null)
+            {
+                ViewBag.s = "Ditt lösenord är skickat till din mail";
+                TempData.Remove("success");
+            }
+
             HttpContext.Session.Remove("session");
             HttpContext.Session.Remove("inloggatId");
 
@@ -55,9 +61,6 @@ namespace Project_Databas.Controllers
             string s = HttpContext.Session.GetString("session");
             ViewBag.user = s;
 
-            //string s = HttpContext.Session.GetString("session");
-            //ViewBag.user = s;
-
             if(s != null)
             {
                 int s2 = (int)HttpContext.Session.GetInt32("inloggatId");
@@ -66,9 +69,7 @@ namespace Project_Databas.Controllers
                 ProfilMetod pm = new ProfilMetod();
                 pd = pm.GetInloggedProfil(s2, out string error);
 
-                ViewBag.error = error;
                 return RedirectToAction("Detaljer", pd);
-                //return View(pd);
             }
             else
             {
@@ -105,39 +106,15 @@ namespace Project_Databas.Controllers
         }
 
 
-        // REDIGERA PROFIL
-        [HttpGet]
-        public IActionResult Redigera(string Pr_Mail, string Pr_Losenord)
-        {
-            ProfilDetaljer pd = new ProfilDetaljer();
-            ProfilMetod pm = new ProfilMetod();
-            pd = pm.GetProfil(Pr_Mail, Pr_Losenord, out string error);
-            return View(pd);
-        }
-
-        [HttpPost]
-        public IActionResult Redigera(ProfilDetaljer pd)
-        {
-            ProfilMetod pm = new ProfilMetod();
-            int i = 0;
-            string error = "";
-            i = pm.EditProfil(pd, out error);
-            return RedirectToAction("MinProfil", pd);
-        }
-
         // VISA DETALJER PROFIL
         public IActionResult Detaljer(string Pr_Mail, string Pr_Losenord)
         {
             ProfilDetaljer pd = new ProfilDetaljer();
 
-            //string s = HttpContext.Session.GetString("session");
-            //ViewBag.user = s;
-
             int s2 = (int)HttpContext.Session.GetInt32("inloggatId");
 
             ProfilMetod pm = new ProfilMetod();
             pd = pm.GetInloggedProfil(s2, out string error);
-
 
             BildMetoder bm = new BildMetoder();
 
@@ -152,10 +129,10 @@ namespace Project_Databas.Controllers
             return View(pd);
         }
 
-        // LADDA UPP BILD
+        // REDIGERA PROFIL
 
         [HttpGet]
-        public IActionResult Uppladdning(string Pr_Mail, string Pr_Losenord)
+        public IActionResult Redigera(string Pr_Mail, string Pr_Losenord)
         {
             string s = HttpContext.Session.GetString("session");
             ViewBag.user = s;
@@ -168,7 +145,7 @@ namespace Project_Databas.Controllers
         }
 
         [HttpPost]
-        public IActionResult Uppladdning(ProfilDetaljer pd)
+        public IActionResult Redigera(ProfilDetaljer pd)
         {
             
             string s = HttpContext.Session.GetString("session");
@@ -218,27 +195,29 @@ namespace Project_Databas.Controllers
         [HttpGet]
         public IActionResult Glomt()
         {
-
             return View();
         }
 
         [HttpPost]
         public IActionResult Glomt(string Pr_Mail)
         {
-            if(Pr_Mail != null) { 
+            string s;
+            ProfilMetod pm = new ProfilMetod();
 
-                ProfilMetod pm = new ProfilMetod();
-                pm.SendMail(Pr_Mail, out string errormsg);
+            if (pm.SendMail(Pr_Mail, out string errormsg)) {
 
+                TempData["success"] = "Ditt lösenord är skickat till din mail";
                 return RedirectToAction("Inloggning");
             }
             else
             {
+                s = "Ange en giltig mail";
+                ViewBag.s = s;
                 return View("Glomt");
             }
         }
 
-        //FÖR ATT ANVÄNDA LISTA
+        // SHOP
         public IActionResult Shop()
         {
             List<ProduktDetaljer> ProduktLista = new List<ProduktDetaljer>();
@@ -248,6 +227,7 @@ namespace Project_Databas.Controllers
             return View(ProduktLista);
         }
 
+        // VISA MER, PRODUKT
         public IActionResult Item(int id)
         {
             ProduktDetaljer pd = new ProduktDetaljer();
@@ -257,6 +237,7 @@ namespace Project_Databas.Controllers
             return View(pd);
         }
 
+        // KUNDKORGEN
         public IActionResult Cart(int id)
         {
             string sIdInt = HttpContext.Session.GetString("inloggatId");
