@@ -13,9 +13,7 @@ namespace Project_Databas.Models
         public IConfigurationRoot GetConnection()
 
         {
-
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appSettings.json").Build();
-
             return builder;
 
         }
